@@ -1,0 +1,27 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.6
+python-multipart>=0.0.9
+python-dotenv>=1.0.1
+pydantic>=2.9.2
+
+# LLM (Groq) + local embeddings
+langchain>=0.3.7
+langchain-core>=0.3.15
+langchain-text-splitters>=0.3.0
+langchain-community>=0.3.7
+langchain-groq>=0.2.1
+langchain-huggingface>=0.1.2
+sentence-transformers>=3.2.0
+
+# NumPy 2.x has prebuilt wheels for Python 3.13 (no compiler needed)
+numpy>=2.0.0
+
+# Vector store
+faiss-cpu>=1.9.0
+
+# PDF processing
+PyMuPDF>=1.24.11
+
+# Frontend
+streamlit>=1.39.0
+requests>=2.32.3

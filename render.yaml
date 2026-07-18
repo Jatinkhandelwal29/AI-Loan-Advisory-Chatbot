@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ai-loan-advisory-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: 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
+        sync: false
