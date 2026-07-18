@@ -1,195 +1,338 @@
-# 🛡️ AI Loan Advisory Chatbot
+# 🏦 AI Loan Advisory Chatbot
 
-A RAG-powered chatbot that answers questions about **insurance policy PDFs** you upload, plus a
-**premium calculator** and a **policy comparison** tool.
+An AI-powered Loan Advisory Chatbot that allows users to upload policy PDFs, ask natural language questions, and receive accurate answers grounded in the uploaded documents using **Retrieval-Augmented Generation (RAG)**.
 
-This project is a variant of a Loan Advisory Chatbot pattern, adapted with a few changes:
+The application also includes a **Premium Calculator** for instant premium estimation, and a **Compare** tool to check answers across multiple documents.
 
-|               | Original Loan idea             | This project                                |
-| ------------- | ------------------------------ | ------------------------------------------- |
-| Domain        | Loan policies + EMI calculator | Insurance policies + Premium calculator     |
-| Vector store  | ChromaDB                       | FAISS                                       |
-| Embeddings    | Google Gemini embeddings       | Local HuggingFace embeddings (free, no key) |
-| LLM           | Google Gemini                  | Groq (Llama 3.1, very fast inference)       |
-| Extra feature | —                              | `/compare` endpoint + Compare tab in UI     |
+> **Note:** this project's name has been set to "AI Loan Advisory Chatbot," but the underlying
+> features (Premium Calculator, policy comparison) are still built around insurance-style documents,
+> since that's the domain the code was implemented for. Let me know if you'd also like the internal
+> feature names (e.g. Premium Calculator → EMI Calculator) relabeled to fully match loan terminology.
+
+> Adapted from the AI Loan Advisory Chatbot concept — vector store swapped to FAISS, and the LLM swapped to Groq (Llama 3.1) with free local embeddings.
 
 ---
 
-## Tech Stack
+## 📸 Project Preview
 
-- **Backend:** FastAPI + Uvicorn
-- **Frontend:** Streamlit
-- **LLM:** Groq API (`llama-3.1-8b-instant`)
-- **Embeddings:** `sentence-transformers/all-MiniLM-L6-v2` (runs locally, free)
-- **Vector store:** FAISS
-- **PDF parsing:** PyMuPDF
+### Chat Interface
 
-## Project Structure
+![Chat](screenshots/chat.png)
+
+### Premium Calculator
+
+![Premium Calculator](screenshots/premium_calculator.png)
+
+### Compare Policies
+
+![Compare](screenshots/compare.png)
+
+### Upload Policies
+
+![Upload](screenshots/upload.png)
+
+---
+
+# ✨ Features
+
+- 📄 Upload one or multiple Insurance Policy PDFs
+- 🤖 AI-powered Question Answering using Groq (Llama 3.1)
+- 📚 Retrieval-Augmented Generation (RAG)
+- 🔍 Semantic Search using FAISS
+- 🧠 Local HuggingFace Embeddings (free, no API key needed)
+- 📑 Source Citation (PDF + Page Number)
+- 🧮 Premium Calculator
+- 🔍 Compare Policies tool
+- 💬 Interactive Chat Interface
+- ⚡ FastAPI Backend
+- 🎨 Streamlit Frontend
+- 🐳 Docker Support
+- 🔒 Environment Variable Support (.env)
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+- Streamlit
+
+### Backend
+
+- FastAPI
+- Uvicorn
+
+### AI & RAG
+
+- Groq API (Llama 3.1)
+- LangChain
+- FAISS
+- HuggingFace Embeddings (sentence-transformers/all-MiniLM-L6-v2)
+
+### PDF Processing
+
+- PyMuPDF (fitz)
+
+### Programming Language
+
+- Python 3.11+
+
+---
+
+# 📂 Project Structure
 
 ```
 AI-Loan-Advisory-Chatbot
+│
 ├── backend
+│   ├── chatbot.py
 │   ├── config.py
+│   ├── insurance_utils.py
+│   ├── main.py
 │   ├── models.py
 │   ├── pdf_processor.py
-│   ├── rag.py
-│   ├── insurance_utils.py
-│   ├── chatbot.py
-│   └── main.py
+│   └── rag.py
+│
 ├── frontend
 │   ├── app.py
-│   └── api.py
-├── documents/
+│   ├── api.py
+│   └── __init__.py
+│
+├── documents
+├── faiss_index
+│
 ├── Dockerfile
 ├── docker-compose.yml
 ├── render.yaml
 ├── requirements.txt
+├── README.md
 ├── .env.example
 └── .gitignore
 ```
 
-## API Endpoints
-
-| Method | Endpoint     | Description                       |
-| ------ | ------------ | --------------------------------- |
-| GET    | `/health`    | Backend health check              |
-| POST   | `/upload`    | Upload & index PDFs               |
-| POST   | `/chat`      | Ask a question                    |
-| POST   | `/premium`   | Estimate insurance premium        |
-| POST   | `/compare`   | Ask same question across policies |
-| GET    | `/documents` | List uploaded documents           |
-| POST   | `/reindex`   | Rebuild vector index from scratch |
-
 ---
 
-## 🔑 Get a Groq API Key
+# ⚙️ Installation
 
-1. Go to https://console.groq.com/keys
-2. Sign in and click **Create API Key**.
-3. Copy it — you'll paste it into `.env` (local) and into Render's dashboard (deployed).
-   **Never commit this key to GitHub.**
+## 1. Clone Repository
 
----
+```
+git clone https://github.com/YOUR_USERNAME/AI-Loan-Advisory-Chatbot.git
 
-## 💻 Run Locally
-
-```bash
-git clone https://github.com/YOUR_USERNAME/AI-Insurance-Advisor-Chatbot.git
-cd AI-Insurance-Advisor-Chatbot
-
-python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
-
-pip install -r requirements.txt
-
-cp .env.example .env
-# open .env and paste your real GROQ_API_KEY
-
-# Terminal 1 — backend
-uvicorn backend.main:app --reload
-# → http://127.0.0.1:8000/docs
-
-# Terminal 2 — frontend
-cd frontend
-streamlit run app.py
-# → http://localhost:8501
+cd AI-Loan-Advisory-Chatbot
 ```
 
 ---
 
-## 🚀 Step-by-Step: Deploy Backend on Render
+## 2. Create Virtual Environment
 
-1. **Push this project to your own GitHub repo** (make sure `.env` is in `.gitignore` — it already is).
+Windows
 
-2. **Sign in to Render:** https://render.com → sign up/login with GitHub.
+```
+python -m venv .venv
 
-3. **Create a new Web Service:**
-   - Dashboard → **New +** → **Web Service**
-   - Connect your GitHub account and select your repo.
+.venv\Scripts\activate
+```
 
-4. **Configure the service:**
-   - **Name:** `ai-insurance-advisor-backend`
-   - **Runtime:** Docker (Render auto-detects the `Dockerfile` at the repo root)
-   - **Region:** closest to you
-   - **Instance type:** Free (fine for testing)
+Linux / macOS
 
-5. **Add the environment variable:**
-   - Under **Environment** → **Add Environment Variable**
-   - Key: `GROQ_API_KEY`
-   - Value: _your real Groq key_ (paste it here, not in any file)
+```
+python3 -m venv .venv
 
-6. **Deploy:** click **Create Web Service**. Render will build the Docker image and start the container.
-   Wait for the log to show `Uvicorn running on http://0.0.0.0:8000`.
-
-7. **Copy your live backend URL**, shown at the top of the Render dashboard, e.g.:
-
-   ```
-   https://ai-insurance-advisor-backend.onrender.com
-   ```
-
-8. **Verify it's working:** open `https://ai-insurance-advisor-backend.onrender.com/health`
-   in your browser — you should see `{"status": "ok", ...}`.
-   You can also browse the interactive API docs at `/docs`.
-
-> **Free tier note:** Render's free web services spin down after ~15 minutes of inactivity
-> and take ~30–60 seconds to "wake up" on the next request. This is normal, not a bug.
+source .venv/bin/activate
+```
 
 ---
 
-## 🚀 Step-by-Step: Deploy Frontend on Streamlit Community Cloud
+## 3. Install Dependencies
 
-1. Make sure your GitHub repo (same one) also contains `frontend/app.py`, `frontend/api.py`,
-   and `requirements.txt` at the root.
-
-2. **Go to** https://share.streamlit.io → sign in with GitHub.
-
-3. **Click "New app"**:
-   - **Repository:** select your `AI-Insurance-Advisor-Chatbot` repo
-   - **Branch:** `main`
-   - **Main file path:** `frontend/app.py`
-
-4. **Before deploying, open "Advanced settings" → Secrets**, and add:
-
-   ```toml
-   BACKEND_URL = "https://ai-insurance-advisor-backend.onrender.com"
-   ```
-
-   (Use the exact Render URL you copied earlier, no trailing slash.)
-
-5. Click **Deploy**. Streamlit installs `requirements.txt` and starts your app.
-
-6. Once live, your app URL will look like:
-
-   ```
-   https://your-app-name.streamlit.app
-   ```
-
-7. **Test it end-to-end:**
-   - Upload a sample insurance PDF in the "Upload Policies" tab.
-   - Ask a question in the "Chat" tab.
-   - Try the Premium Calculator tab.
-
-### If something doesn't connect
-
-- Check the Render service logs for errors (missing `GROQ_API_KEY` is the most common one).
-- Confirm the `BACKEND_URL` secret in Streamlit exactly matches your Render URL (https, no trailing slash).
-- Remember the free Render instance may need ~30–60s to wake up on first request after idling.
+```
+pip install -r requirements.txt
+```
 
 ---
 
-## Security Notes
+## 4. Configure Environment Variables
 
-- `GROQ_API_KEY` is read from environment variables only — it is never hardcoded in source.
-- `.env`, `faiss_index/`, and uploaded PDFs are git-ignored so secrets and user data aren't committed.
-- If a real key is ever pasted into a chat, commit, or shared file by mistake, **rotate it immediately**
-  from the Groq console — treat it as compromised.
+Create a `.env` file in the project root.
+
+```
+GROQ_API_KEY=YOUR_GROQ_API_KEY
+```
 
 ---
 
-## Future Improvements
+# ▶️ Running the Application
 
-- Conversation memory across turns
-- Insurance eligibility / risk pre-screening
-- OCR support for scanned PDFs
-- Multilingual Q&A
-- User authentication for multi-user document isolation
+## Start Backend
+
+```
+uvicorn backend.main:app --reload
+```
+
+Backend runs at
+
+```
+http://127.0.0.1:8000
+```
+
+Swagger API
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## Start Frontend
+
+Open another terminal
+
+```
+streamlit run frontend/app.py
+```
+
+Frontend
+
+```
+http://localhost:8501
+```
+
+---
+
+# 🐳 Docker
+
+Build
+
+```
+docker compose build
+```
+
+Run
+
+```
+docker compose up
+```
+
+Stop
+
+```
+docker compose down
+```
+
+---
+
+# 🚀 Workflow
+
+```
+Upload PDF
+      │
+      ▼
+Extract Text (PyMuPDF)
+      │
+      ▼
+Chunk Documents (LangChain)
+      │
+      ▼
+Generate Local Embeddings (HuggingFace)
+      │
+      ▼
+Store in FAISS
+      │
+      ▼
+Semantic Retrieval
+      │
+      ▼
+Groq LLM (Llama 3.1)
+      │
+      ▼
+Answer + Source Citation
+```
+
+---
+
+# 📚 API Endpoints
+
+| Method | Endpoint     | Description                        |
+| ------ | ------------ | ----------------------------------- |
+| GET    | `/health`    | Backend Health                     |
+| POST   | `/upload`    | Upload & Index PDFs                |
+| POST   | `/chat`      | Ask Questions                      |
+| POST   | `/premium`   | Calculate Insurance Premium        |
+| POST   | `/compare`   | Compare Answers Across Policies    |
+| GET    | `/documents` | List Uploaded Documents            |
+| POST   | `/reindex`   | Rebuild Vector Database            |
+
+---
+
+# ☁️ Deployment
+
+## Backend on Render
+
+1. Push this repo to your own GitHub account.
+2. On [render.com](https://render.com), create a **New Web Service** and connect your repo.
+3. Render auto-detects the `Dockerfile`. Choose the **Free** plan.
+4. Add environment variable `GROQ_API_KEY` with your real key under **Environment**.
+5. Deploy. Copy the live URL, e.g. `https://your-app.onrender.com`.
+6. Verify at `https://your-app.onrender.com/health`.
+
+## Frontend on Streamlit Community Cloud
+
+1. On [share.streamlit.io](https://share.streamlit.io), click **New app**.
+2. Select this repo, branch `main`, main file path `frontend/app.py`.
+3. Under **Advanced settings → Secrets**, add:
+   ```
+   BACKEND_URL = "https://your-app.onrender.com"
+   ```
+4. Click **Deploy**.
+
+---
+
+# 📈 Future Improvements
+
+- Conversation Memory
+- Insurance Eligibility / Risk Pre-screening
+- OCR Support for Scanned PDFs
+- Voice Input
+- Multilingual Support
+- Admin Dashboard
+- Authentication
+- Multi-user Document Isolation
+
+---
+
+# 📄 Environment Variables
+
+Create a `.env` file.
+
+```
+GROQ_API_KEY=YOUR_GROQ_API_KEY
+```
+
+Never upload your real API key to GitHub.
+
+---
+
+# 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome.
+
+Feel free to fork this repository and submit a pull request.
+
+---
+
+# 👨‍💻 Author
+
+**Your Name Here**
+
+Add your background, e.g.: B.Tech CSE | AI/ML | Python | FastAPI | LangChain
+
+GitHub: https://github.com/YOUR_USERNAME
+
+LinkedIn: https://linkedin.com/in/YOUR_USERNAME
+
+---
+
+# ⭐ If you like this project
+
+Please consider giving it a ⭐ on GitHub.
