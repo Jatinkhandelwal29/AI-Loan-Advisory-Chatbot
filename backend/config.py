@@ -22,7 +22,7 @@ CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 150
 
 # Local, free embedding model (no API key needed) run via sentence-transformers.
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 
 # Groq-hosted Llama model for answer generation.
 LLM_MODEL = "llama-3.1-8b-instant"
