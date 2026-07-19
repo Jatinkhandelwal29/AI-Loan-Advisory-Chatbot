@@ -26,7 +26,7 @@ The application also includes a **Premium Calculator** for instant premium estim
 
 ### Upload Policies
 
-![Upload](screenshots/upload.png)
+![Upload]([screenshots/upload.png](https://github.com/Jatinkhandelwal29/AI-Loan-Advisory-Chatbot/blob/e29c7adf2eb8fb1be2728101547b9558b6ba68f2/Screenshot%202026-07-19%20011651.png))
 
 ---
 
