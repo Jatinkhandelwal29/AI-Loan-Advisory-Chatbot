@@ -18,7 +18,7 @@ The application also includes a **Premium Calculator** for instant premium estim
 
 ### Premium Calculator
 
-https://github.com/Jatinkhandelwal29/AI-Loan-Advisory-Chatbot/blob/04f8eda138ce1b238e64f6cc0fa14504d25ee53a/Screenshot%202026-07-19%20011620.png
+[![CALCULATOR](screenshots/chat.png)](https://github.com/Jatinkhandelwal29/AI-Loan-Advisory-Chatbot/blob/04f8eda138ce1b238e64f6cc0fa14504d25ee53a/Screenshot%202026-07-19%20011620.png)
 
 ### Compare Policies
 
