@@ -2,10 +2,12 @@ import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
-from backend.config import EMBEDDING_MODEL, INDEX_DIR, TOP_K
+from langchain_community.embeddings import FastEmbedEmbeddings
 
-# Local embedding model — runs on CPU, no API key required.
-_embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
+INDEX_DIR = os.getenv("INDEX_DIR", "./index_store")
+TOP_K = int(os.getenv("TOP_K", "4"))
+_embeddings = FastEmbedEmbeddings(model_name=EMBEDDING_MODEL)
 
 _vectorstore = None
 
